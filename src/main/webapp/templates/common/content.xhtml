@@ -1,0 +1,53 @@
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+	<h:form id="testForm">
+
+		<script type="text/javascript">
+			function validateContent() {
+				var currentValue = $("#testForm\\:nonNullInput").val();
+	            if (currentValue) {
+	            	if (currentValue.length &lt; 9) {
+	            		$("#fieldInputValidation").text("");
+	            		buttonWidget.enable();          		
+	            	} else {
+	            		$("#fieldInputValidation").text("Field must be 8 characters or less!");
+	            		buttonWidget.disable();
+	            	}
+	            } else {
+	            	buttonWidget.disable();
+	            }
+			}
+			
+			function validateEmail() {
+				var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+				var email = $("#testForm\\:emailInput").val();
+				if( emailReg.test( email ) ) {
+					$("#emailInputValidation").text("valid!");
+	            } else {
+	            	$("#emailInputValidation").text("invalid!");
+	            }
+			}
+				
+		</script>
+		<p>Simple email validation example with warning message when field loses focus</p>
+		<p:inputText id="emailInput" widgetVar="emailInputWidget" onblur="validateEmail();" />
+		<span id="emailInputValidation" />
+		<p />
+
+		<p>Button enables if field has a value less than 9 characters</p>
+		<p:inputText id="nonNullInput" widgetVar="nonNullInputWidget">
+			<pe:javascript event="keyup" execute="validateContent();" />
+		</p:inputText>
+		<span id="fieldInputValidation" />
+		
+		<p />
+
+		<p:commandButton id="button" widgetVar="buttonWidget" disabled="true" />
+
+	</h:form>
+</ui:composition>
